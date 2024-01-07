@@ -1,0 +1,21 @@
+# Git
+.git
+.gitignore
+
+# Node modules
+node_modules
+
+# docker
+.dockerignore
+Dockerfile
+
+# dist
+dist
+
+# etc
+*.md
+*.sh
+*.yml
+
+.eslintrc.js
+.prettierrc
