@@ -1,6 +1,7 @@
 # 클라우드 포스
 
 ## Preview
+![image](https://github.com/jobkaeHenry/cloud-pos-and-shop/assets/100949102/2d019fcf-bf3d-40da-b0bd-c7970db63a6b)
 
 <b>[배포링크]</b><br>
 <b>포스 - </b>https://pos.jobkaehenry.com/
