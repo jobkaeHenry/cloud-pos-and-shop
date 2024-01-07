@@ -55,6 +55,7 @@
 
 <details>
   <summary>장바구니 아이템 추가 로직</summary>
+  
 ![image](https://github.com/jobkaeHenry/cloud-pos-and-shop/assets/100949102/eacf8e8c-73a9-43b3-9176-e93611a5a850)
 
 상품 리스트에서 아이템을 클릭시, 장바구니에 추가됩니다.
@@ -128,6 +129,7 @@ Unique Key 가 일치하는 아이템이 장바구니에 이미 존재할 경우
 
 <details>
   <summary>JSDoc</summary>
+  
 ![image](https://github.com/jobkaeHenry/cloud-pos-and-shop/assets/100949102/9afb862c-a5d9-451a-b1ee-85c843d48499)
 
 다수의 개발자가 협업하는 상황을 고려해 함수명만으로 함수의 기능을 유추 가능하도록하되, JSDoc 을 적극 활용, 추상화 된 함수의 상세설명을 제공했습니다.
@@ -136,6 +138,7 @@ Unique Key 가 일치하는 아이템이 장바구니에 이미 존재할 경우
 
 <details>
   <summary>디렉토리 구조</summary>
+  
 ![image](https://github.com/jobkaeHenry/cloud-pos-and-shop/assets/100949102/e0d7ba41-d8b7-4cbf-9638-8742e2ba9526)
 
 디렉토리 구조는 크게보면 Asset, types, components, utils, const, layout, hooks로 이루어져있으며 src 디렉토리에 위치한 해당 폴더들은 전역에서 사용되는 요소들을 보관하고,
@@ -145,6 +148,7 @@ Unique Key 가 일치하는 아이템이 장바구니에 이미 존재할 경우
 
 <details>
   <summary>global 상수 사용</summary>
+  
 ![image](https://github.com/jobkaeHenry/cloud-pos-and-shop/assets/100949102/e99988e5-dd9d-494d-beef-eb8c462a68ec)
 
 가독성 / 유지보수성을 개선하기 위해 '자주 사용되는 숫자', '전역적으로 사용되는 값' (로컬스토리지 키) 등을 전역에서 상수로 관리하도록 했습니다.
