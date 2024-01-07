@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Stack } from "@mui/system";
 import { Button, NativeSelect, TextField, Typography } from "@mui/material";
 import useGetCategoriesQuery from "../../../Categories/api/useCategoriesQuery";
@@ -18,7 +18,7 @@ const NewMenuModal = () => {
   const [formValue, setFormValue] = useState<CreateProductDTO>({
     title: "",
     description: "",
-    categoryId: filteredCategory[0].id,
+    categoryId: filteredCategory[0]?.id,
     //@ts-ignore 빈 값 감지로직과 내부에 number로 바꾸는 로직이 있으므로 문제가 없음
     price: "",
   });
