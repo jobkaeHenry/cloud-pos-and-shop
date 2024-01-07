@@ -130,7 +130,8 @@ Unique Key 가 일치하는 아이템이 장바구니에 이미 존재할 경우
 <details>
   <summary>JSDoc</summary>
   
-![image](https://github.com/jobkaeHenry/cloud-pos-and-shop/assets/100949102/9afb862c-a5d9-451a-b1ee-85c843d48499)
+![256213666-5deff7fa-f81b-42f8-8246-59844b2497a0](https://github.com/jobkaeHenry/cloud-pos-and-shop/assets/100949102/86ccce8f-b696-430b-b412-92bf998167e2)
+
 
 다수의 개발자가 협업하는 상황을 고려해 함수명만으로 함수의 기능을 유추 가능하도록하되, JSDoc 을 적극 활용, 추상화 된 함수의 상세설명을 제공했습니다.
 
