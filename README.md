@@ -2,12 +2,10 @@
 
 ## Preview
 
-<b>[배포링크]</b>
-<b>[포스]</b>
-https://pos.jobkaehenry.com/
+<b>[배포링크]</b><br>
+<b>포스 - </b>https://pos.jobkaehenry.com/
 
-<b>[브랜드 사이트]</b>
-https://myshop.jobkaehenry.com/sampleshop
+<b>브랜드 사이트 - </b>https://myshop.jobkaehenry.com/sampleshop
 
 ## Node Version
 
@@ -27,10 +25,10 @@ https://myshop.jobkaehenry.com/sampleshop
 
 | Icon  | Description                |
 | ----- | -------------------------- |
-| ✨    | 신규 기능 추가             |
-| :art: | 기존코드 수정 / 리팩토링   |
-| :bug: | 버그 / 오류 수정           |
-| minor | 작은수정사항 (스타일변경,) |
+| New:   | 신규 기능 추가             |
+| Refactor : | 기존코드 수정 / 리팩토링   |
+| Fix: | 버그 / 오류 수정           |
+| Minor: | 작은수정사항 (스타일변경,) |
 
 ## 개발환경
 
