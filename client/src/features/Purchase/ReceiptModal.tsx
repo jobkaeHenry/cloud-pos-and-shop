@@ -23,7 +23,12 @@ const RecieptModal = () => {
           >
             <ColumnWrapper gap={4}>
               <Receipt />
-              <Button onClick={closeModal} variant="outlined">
+              <Button
+                onClick={closeModal}
+                variant="outlined"
+                color="inherit"
+                sx={{ color: "text.secondary" }}
+              >
                 확인 후 닫기
               </Button>
             </ColumnWrapper>

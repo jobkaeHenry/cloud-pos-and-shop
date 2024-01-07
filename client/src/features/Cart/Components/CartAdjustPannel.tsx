@@ -56,7 +56,8 @@ const CartAdjustPannel = () => {
           disabled={hasItems}
           variant="outlined"
           size="small"
-          className="w-fit"
+          color="inherit"
+          sx={{ color: "text.secondary" }}
           onClick={() => openModal(<CouponModal />)}
         >
           쿠폰적용하기
@@ -68,6 +69,8 @@ const CartAdjustPannel = () => {
           size="small"
           fullWidth
           variant="outlined"
+          color="inherit"
+          sx={{ color: "text.secondary" }}
           onClick={minusQuantity}
         >
           -
@@ -77,6 +80,8 @@ const CartAdjustPannel = () => {
           size="small"
           fullWidth
           variant="outlined"
+          color="inherit"
+          sx={{ color: "text.secondary" }}
           onClick={plusQuantity}
         >
           +

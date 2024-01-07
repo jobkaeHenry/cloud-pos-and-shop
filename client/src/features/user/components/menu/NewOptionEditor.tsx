@@ -74,6 +74,8 @@ const NewOptionEditor = ({ onChange }: NewOptionEditorProps) => {
         ))}
       <Button
         variant="outlined"
+        color="inherit"
+        sx={{ color: "text.secondary" }}
         onClick={() =>
           setNewOption((prev) => [...prev, { title: "", price: 0 }])
         }
