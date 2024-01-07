@@ -50,7 +50,11 @@ const OptionModal = ({ data }: Props) => {
       </ColumnWrapper>
       {/* 클릭시, 카트아이디 생성, 옵션 소팅, 토탈프라이스 추가 후 모달 닫기 */}
       <RowWrapper gap={2}>
-        <Button variant="outlined" fullWidth onClick={closeModal}>
+        <Button
+          variant="outlined"
+          fullWidth
+          onClick={closeModal}
+        >
           취소
         </Button>
         <Button

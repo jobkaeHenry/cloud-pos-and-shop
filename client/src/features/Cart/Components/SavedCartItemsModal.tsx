@@ -25,6 +25,8 @@ const UseSavedCartItemsModal = () => {
         <Button
           fullWidth
           variant="outlined"
+          color="inherit"
+          sx={{ color: "text.secondary" }}
           onClick={() => {
             reset();
             closeModal();

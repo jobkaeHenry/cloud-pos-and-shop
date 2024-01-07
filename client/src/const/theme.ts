@@ -102,15 +102,6 @@ const theme = createTheme({
             color: "#8A8A8A",
           },
         },
-        outlined: {
-          borderColor: "#B8B8B8",
-          color: "#6B7280",
-          "&:hover": {
-            borderColor: "#B8B8B8",
-            color: "#6B7280",
-            backgroundColor: "#F8F8F8",
-          },
-        },
       },
     },
     MuiButtonBase: {
