@@ -10,6 +10,7 @@ import { CouponModule } from './coupon/coupon.module';
 import { join } from 'path';
 import { CategoryModule } from './category/category.module';
 import { SettingModule } from './setting/setting.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { SettingModule } from './setting/setting.module';
     CouponModule,
     CategoryModule,
     SettingModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

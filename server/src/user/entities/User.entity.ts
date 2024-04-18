@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Category } from 'src/category/entities/category.entity';
 import { Setting } from 'src/setting/entity/Setting.entity';
+import { Order } from 'src/order/entities/Order.entity';
 
 @Entity()
 export class User {
@@ -45,6 +46,12 @@ export class User {
     cascade: true,
   })
   category: Category[];
+
+  @OneToMany(() => Order, (order) => order.user, {
+    onDelete: 'CASCADE',
+    cascade: true,
+  })
+  order: Order[];
 
   @OneToOne(() => Setting, (setting) => setting.user, { cascade: true })
   setting: Setting;

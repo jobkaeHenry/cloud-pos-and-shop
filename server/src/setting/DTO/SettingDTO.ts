@@ -1,6 +1,5 @@
 import { Expose, Transform } from 'class-transformer';
 import { IsAlphanumeric, IsOptional, IsString } from 'class-validator';
-import { User } from 'src/user/entities/User.entity';
 import { Setting } from '../entity/Setting.entity';
 
 export class CreateSettingDTO {

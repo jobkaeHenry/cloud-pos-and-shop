@@ -53,7 +53,7 @@ export class MenuService {
     try {
       await queryRunner.connect();
       await queryRunner.startTransaction();
-      const newMenu = this.menuRepo.create(data);
+      const newMenu = queryRunner.manager.create(Menu, data);
 
       const existingCategory = await this.categoryRepo.findOne({
         where: { id: data.categoryId },
@@ -65,7 +65,7 @@ export class MenuService {
 
       newMenu.user = user;
       newMenu.category = existingCategory;
-      await this.menuRepo.save(newMenu);
+      await queryRunner.manager.save(newMenu);
 
       if (option) {
         await this.createOptionByArray(option, newMenu.id);
@@ -108,6 +108,7 @@ export class MenuService {
       }
 
       // 옵션업데이트
+      // FIXME : Query Runner에서 생성한 옵션을 이용하도록 변경
       if (option) {
         const { remove, patch, create } = option;
 
@@ -175,9 +176,9 @@ export class MenuService {
 
       // Promise 배열을 저장하기 위한 배열
       const savePromises = option.map(({ title, price }) => {
-        const newOption = this.optionRepo.create({ title, price });
+        const newOption = queryRunner.manager.create(Option, { title, price });
         newOption.menu = existingMenu;
-        return this.optionRepo.save(newOption);
+        return queryRunner.manager.save(newOption);
       });
 
       // 모든 Promise가 완료될 때까지 기다림

@@ -17,6 +17,6 @@ export class UserInfoResponseDTO {
   category: Category[];
 
   @Expose()
-  @Transform(({ obj }: { obj: User }) => obj.setting)
+  @Transform(({ obj: user }: { obj: User }) => user.setting)
   setting: Setting;
 }
