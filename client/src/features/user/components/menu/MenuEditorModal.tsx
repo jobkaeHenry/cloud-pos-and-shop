@@ -13,6 +13,7 @@ import {
   CreateOptionDTO,
   PatchOptionByArrayDTO,
 } from "../../../ProductList/types/OptionDTO";
+import useDeleteMenuMutation from "../../api/useDeleteMenuMutation";
 
 type Props = {
   productId: Product["id"];
@@ -22,6 +23,7 @@ const MenuEditorModal = ({ productId }: Props) => {
   const { data: productDetail } = useProductDetailQuery(productId);
   const { data: categories } = useGetCategoriesQuery();
   const { mutateAsync: patchProductHandler } = usePatchProductMutation();
+  const { mutateAsync: deleteProduct } = useDeleteMenuMutation();
 
   const [formValue, setFormValue] = useState<PatchProductDTO>({
     title: productDetail.title,
@@ -45,6 +47,13 @@ const MenuEditorModal = ({ productId }: Props) => {
     },
     []
   );
+
+  const deleteHandler = useCallback(async () => {
+    if (window.confirm("메뉴를 삭제하겠습니까?")) {
+      await deleteProduct(productId);
+      closeModal();
+    }
+  }, []);
 
   return (
     <Stack
@@ -119,8 +128,14 @@ const MenuEditorModal = ({ productId }: Props) => {
       />
       {/* 신규 옵션 추가 */}
       <NewOptionEditor onChange={(val) => setOptionIdToCreate(val)} />
+      {/* 삭제 저장 */}
       <Stack direction={"row"} gap={1}>
-        <Button fullWidth variant="outlined" color="error">
+        <Button
+          fullWidth
+          variant="outlined"
+          color="error"
+          onClick={deleteHandler}
+        >
           메뉴삭제
         </Button>
         <Button fullWidth type="submit">

@@ -8,6 +8,8 @@ export const PATCH_PRODUCT = (menuId: number) => `/menu/${menuId}`;
 
 export const CREATE_PRODUCT = "/menu";
 
+export const DELETE_PRODUCT = (menuId: number) => `/menu/${menuId}`;
+
 export const DELETE_COUPON_URL = (couponId: number) => `/coupon/${couponId}`;
 
 export const PATCH_COUPON_URL = (couponId: number) => `/coupon/${couponId}`;
