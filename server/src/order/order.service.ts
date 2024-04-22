@@ -14,6 +14,7 @@ import { Menu } from 'src/menu/entities/Menu.entity';
 import { Option } from 'src/menu/entities/Option.entity';
 import { Coupon } from 'src/coupon/entities/Coupon.entity';
 import { ChangeOrderStatusRequestDTO } from './DTO/patchOrder.dto';
+import { SseService } from 'src/sse/sse.service';
 
 @Injectable()
 export class OrderService {
@@ -23,6 +24,7 @@ export class OrderService {
     @InjectRepository(Option) private optionRepo: Repository<Option>,
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(Coupon) private couponRepo: Repository<Coupon>,
+    private readonly SseService: SseService,
     private dataSource: DataSource
   ) {}
 
@@ -144,7 +146,12 @@ export class OrderService {
       // await Promise.all(promises);
 
       await queryRunner.commitTransaction();
-      return await this.orderRepo.findOne({ where: { id: savedNewOrder.id } });
+      const createdOrder = await this.orderRepo.findOne({
+        where: { id: savedNewOrder.id },
+        relations: ['user'],
+      });
+      this.SseService.emitNewOrder(createdOrder);
+      return createdOrder;
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;

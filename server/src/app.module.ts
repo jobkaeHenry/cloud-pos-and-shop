@@ -11,6 +11,7 @@ import { join } from 'path';
 import { CategoryModule } from './category/category.module';
 import { SettingModule } from './setting/setting.module';
 import { OrderModule } from './order/order.module';
+import { SseModule } from './sse/sse.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { OrderModule } from './order/order.module';
     CategoryModule,
     SettingModule,
     OrderModule,
+    SseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

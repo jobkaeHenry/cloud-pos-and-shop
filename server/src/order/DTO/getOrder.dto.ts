@@ -3,6 +3,21 @@ import { Order, OrderStatus } from '../entities/Order.entity';
 import { OrderItem } from '../entities/OrderItem.entity';
 import { SelectedOptions } from '../entities/SelectedOption.entity';
 
+export class GetStreamedOrderResponseDTO {
+  @Expose()
+  @Transform(({ obj: stream }: { obj: MessageEvent<Order> }) => {
+    const { data } = stream;
+    const { status, id, createdAt } = data;
+    return {
+      status,
+      id,
+      createdAt,
+      orderItems: mapOrderItems(data),
+    };
+  })
+  data: typeof GetOrderResponseDTO;
+}
+
 export class GetOrderResponseDTO {
   @Expose()
   id: number;

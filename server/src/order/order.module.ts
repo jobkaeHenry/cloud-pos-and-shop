@@ -10,6 +10,7 @@ import { Menu } from 'src/menu/entities/Menu.entity';
 import { Option } from 'src/menu/entities/Option.entity';
 import { Coupon } from 'src/coupon/entities/Coupon.entity';
 import { User } from 'src/user/entities/User.entity';
+import { SseModule } from 'src/sse/sse.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { User } from 'src/user/entities/User.entity';
       User,
     ]),
     AuthModule,
+    SseModule,
   ],
   controllers: [OrderController],
   providers: [OrderService],
