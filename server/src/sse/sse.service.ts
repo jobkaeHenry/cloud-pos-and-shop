@@ -39,9 +39,9 @@ export class SseService {
       }),
       // 데이터 전송
       map((order) => {
-        delete order.user;
+        const { user, ...ommitedData } = order;
         return {
-          data: order,
+          data: ommitedData,
         } as MessageEvent<Order>;
       })
     );

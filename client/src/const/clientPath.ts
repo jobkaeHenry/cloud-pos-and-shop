@@ -8,6 +8,8 @@ export const SIGNUP_URL = `${AUTH_DIRECTORY_URL}/signup`;
 
 export const USER_PAGE_URL = "/user";
 
+export const VIEW_ORDER_URL = "/user/order";
+
 export const EDIT_MENU_URL = "/user/menu";
 
 export const EDIT_COUPON_URL = "/user/coupon";

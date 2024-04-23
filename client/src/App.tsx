@@ -12,6 +12,7 @@ import BaseLayout from "./BaseLayout";
 import EditCategoryPage from "./pages/user/EditCategoryPage";
 import EditWebsitePage from "./pages/user/EditWebsitePage";
 import NotFoundPage from "./pages/NotFound";
+import ViewOrdersPage from "./pages/user/ViewOrdersPage";
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
               <Route element={<MainPage />} path={HOME_URL} />
               {/* 세팅페이지 */}
               <Route element={<UserPageLayout />} path={USER_PAGE_URL}>
-                <Route index element={<EditMenuPage />} />
+                <Route index element={<ViewOrdersPage />} />
+                <Route element={<ViewOrdersPage />} path={"order"} />
                 <Route element={<EditMenuPage />} path={"menu"} />
                 <Route element={<EditCouponPage />} path={"coupon"} />
                 <Route element={<EditCategoryPage />} path={"category"} />

@@ -12,7 +12,7 @@ export class GetStreamedOrderResponseDTO {
       status,
       id,
       createdAt,
-      orderItems: mapOrderItems(data),
+      orderedItems: mapOrderItems(data),
     };
   })
   data: typeof GetOrderResponseDTO;
@@ -48,7 +48,7 @@ function mapOrderItem(orderItem: OrderItem) {
     title,
     price,
     description,
-    selectedOptions: transformedOptions,
+    option: transformedOptions,
     quantity,
   };
 }

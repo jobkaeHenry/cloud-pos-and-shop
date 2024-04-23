@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import WebIcon from "@mui/icons-material/Web";
 import Logo from "../../../assets/Logo";
@@ -20,6 +21,7 @@ import {
   EDIT_MENU_URL,
   EDIT_WEBSITE_URL,
   HOME_URL,
+  VIEW_ORDER_URL,
 } from "../../../const/clientPath";
 import { cloneElement } from "react";
 
@@ -28,6 +30,7 @@ const DashboardDrawer = () => {
   const gray = useTheme().palette.text.secondary;
 
   const listData = [
+    { title: "주문 관리", icon: <ReceiptLongIcon />, href: VIEW_ORDER_URL },
     { title: "메뉴 관리", icon: <FastfoodIcon />, href: EDIT_MENU_URL },
     { title: "쿠폰 관리", icon: <LocalActivityIcon />, href: EDIT_COUPON_URL },
     {
