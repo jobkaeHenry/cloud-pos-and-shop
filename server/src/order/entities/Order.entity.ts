@@ -16,7 +16,7 @@ export class Order {
   id: number;
 
   @Column({
-    type: 'time with time zone',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;

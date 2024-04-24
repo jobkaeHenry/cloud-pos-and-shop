@@ -26,7 +26,7 @@ export class User {
   @Column()
   shopName: string;
 
-  @Column({ type: 'time with time zone', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
   @OneToMany(() => Menu, (menu) => menu.user, {
@@ -57,7 +57,7 @@ export class User {
   setting: Setting;
 
   @DeleteDateColumn({
-    type: 'time with time zone',
+    type: 'timestamptz',
   })
   deletedAt: Date;
 }

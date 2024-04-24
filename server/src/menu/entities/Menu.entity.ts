@@ -37,13 +37,13 @@ export class Menu {
   option?: Option[];
 
   @Column({
-    type: 'time with time zone',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
   @DeleteDateColumn({
-    type: 'time with time zone',
+    type: 'timestamptz',
   })
   deletedAt: Date;
 }

@@ -21,14 +21,14 @@ export class Coupon {
   @Column()
   type: 'amount' | 'rate';
 
-  @Column({ type: 'time with time zone', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
   @ManyToOne(() => User, (user) => user.id)
   user: User;
 
   @DeleteDateColumn({
-    type: 'time with time zone',
+    type: 'timestamptz',
   })
   deletedAt: Date;
 }

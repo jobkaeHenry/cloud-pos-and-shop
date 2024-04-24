@@ -26,7 +26,7 @@ export class Option {
   menu: Menu;
 
   @DeleteDateColumn({
-    type: 'time with time zone',
+    type: 'timestamptz',
   })
   deletedAt: Date;
 }
