@@ -7,6 +7,7 @@ export interface Product {
   option?: Option[];
   price: number;
   description: string;
+  image?: string;
 }
 
 export interface Option {

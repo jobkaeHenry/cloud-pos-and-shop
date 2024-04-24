@@ -12,6 +12,7 @@
     "@mui/icons-material": "^5.15.0",
     "@mui/material": "^5.15.0",
     "@tanstack/react-query": "^5.14.0",
+    "dayjs": "^1.11.10",
     "event-source-polyfill": "^1.0.31",
     "framer-motion": "^10.13.1",
     "isomorphic-dompurify": "^2.0.0",

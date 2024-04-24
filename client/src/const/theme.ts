@@ -1,6 +1,7 @@
 import { createTheme } from "@mui/material";
 //@ts-ignore
 import Pretendard from "../assets/PretendardVariable.woff2";
+import { BorderRight } from "@mui/icons-material";
 
 const theme = createTheme({
   typography: {
@@ -60,33 +61,21 @@ const theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#00a5ba",
-      contrastText: "#fff",
+      main: "#0090a0",
     },
     secondary: {
-      main: "#b61a84",
-    },
-    text: {
-      primary: "#1C1C1C",
-      secondary: "#8A8A8A",
-      disabled: "#B8B8B8",
-    },
-    gray: {
-      primary: "#F5F5F5",
-      secondary: "#E6E6E6",
-    },
-    background: {
-      default: "#F5F5F5",
-      paper: "#fefefe",
-    },
-    info: {
-      main: "#00C853",
+      main: "#b61a85",
+      light: "#e51994",
+      dark: "#8e1879",
     },
     error: {
-      main: "#D50000",
+      main: "#b61a37",
+    },
+    success: {
+      main: "#85b61a",
     },
     warning: {
-      main: "#FFD600",
+      main: "#ec6526",
     },
   },
   components: {
@@ -102,6 +91,21 @@ const theme = createTheme({
             color: "#8A8A8A",
           },
         },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: "0 16px",
+        },
+      },
+    },
+    MuiCardMedia: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          borderRadius: "0 16px",
+          backgroundColor: theme.palette.grey[200],
+        }),
       },
     },
     MuiButtonBase: {
@@ -159,13 +163,6 @@ declare module "@mui/material/styles" {
     label?: React.CSSProperties;
     caption1?: React.CSSProperties;
     caption2?: React.CSSProperties;
-  }
-  interface Palette {
-    gray: { primary: string; secondary: string };
-  }
-
-  interface PaletteOptions {
-    gray?: { primary: string; secondary: string };
   }
 }
 

@@ -2,6 +2,11 @@ import { DetailedHTMLProps, LiHTMLAttributes } from "react";
 import { Product } from "../../types/Products";
 import { MotionProps, motion } from "framer-motion";
 
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+
 interface Props extends MotionProps {
   data: Product;
   onClick: DetailedHTMLProps<
@@ -18,16 +23,28 @@ const ProductCard = ({ data, ...others }: Props) => {
         backgroundColor: "#f5ecff",
         transition: { duration: 0.1 },
       }}
-      className={CardWrapper}
       {...others}
     >
-      <span className="font-semibold">{data.title}</span>
-      <span>{`${data.price.toLocaleString()} 원`}</span>
+      <Card>
+        <CardMedia
+          component={"img"}
+          sx={{ aspectRatio: 1.2 }}
+          src="https://mui.com/static/images/cards/paella.jpg"
+          alt={"test"}
+        />
+        <CardContent
+          sx={{
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <Typography fontWeight={800}>{data.title}</Typography>
+          <Typography>{`${data.price.toLocaleString()} 원`}</Typography>
+        </CardContent>
+      </Card>
     </motion.li>
   );
 };
-
-const CardWrapper =
-  "flex flex-col bg-white gap-2 justify-center items-center text-center border p-4 min-h-[130px] w-full cursor-pointer select-none";
-
 export default ProductCard;
