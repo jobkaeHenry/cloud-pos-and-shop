@@ -31,7 +31,7 @@ export class OrderService {
   async GetOrderListById(user: User) {
     const orders = await this.orderRepo.find({
       where: { user: { id: user.id } },
-      relations: ['user'],
+      relations: ['user', 'coupon'],
     });
     if (!orders) {
       throw new BadRequestException('존재하지 않는 유저입니다');
@@ -59,7 +59,8 @@ export class OrderService {
 
       if (data.couponId !== undefined) {
         const existingCoupon = await this.couponRepo.findOne({
-          where: { id: data.couponId, user: existingUser },
+          where: { id: data.couponId, user: { id: existingUser.id } },
+          relations: ['user'],
         });
         if (!existingCoupon) {
           throw new NotFoundException('존재하지 않는 쿠폰입니다');
@@ -70,7 +71,8 @@ export class OrderService {
 
       for (const orderItem of data.orderedItems) {
         const existingMenu = await this.menuRepo.findOne({
-          where: { id: orderItem.menuId, user: existingUser },
+          where: { id: orderItem.menuId, user: { id: existingUser.id } },
+          relations: ['user'],
         });
         if (!existingMenu) {
           throw new NotFoundException('존재하지 않는 메뉴입니다');
@@ -88,7 +90,7 @@ export class OrderService {
             const existingOption = await this.optionRepo.findOne({
               where: {
                 id: selectedOption.optionId,
-                menu: { user: existingUser },
+                menu: { user: { id: existingUser.id } },
               },
               relations: ['menu.user'],
             });

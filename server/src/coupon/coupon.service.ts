@@ -18,11 +18,13 @@ export class CouponService {
     const newCoupon = this.repo.create({ title, type, amount });
 
     newCoupon.user = user;
-    return this.repo.save(newCoupon);
+    return await this.repo.save(newCoupon);
   }
 
   async getCouponByUserToken(user: User) {
-    const coupons = await this.repo.find({ where: { user } });
+    const coupons = await this.repo.find({
+      where: { user: { id: Number(user.id) } },
+    });
     return coupons;
   }
 
@@ -32,7 +34,7 @@ export class CouponService {
     });
     return coupons;
   }
-
+  // FIXME 유저체크
   async patchCoupon(menuId: Coupon['id'], updateValue: ChangeCouponRequestDTO) {
     this.checkIsValiedAmout({
       type: updateValue.type,
@@ -47,6 +49,7 @@ export class CouponService {
     return await this.repo.save(prevCoupon);
   }
 
+  // FIXME 유저체크
   async deleteCouponByCouponId(couponId: Coupon['id']) {
     const couponToDelete = await this.repo.findOne({ where: { id: couponId } });
     if (!couponToDelete) {

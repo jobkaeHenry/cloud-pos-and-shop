@@ -2,6 +2,7 @@ import { Expose, Transform } from 'class-transformer';
 import { Order, OrderStatus } from '../entities/Order.entity';
 import { OrderItem } from '../entities/OrderItem.entity';
 import { SelectedOptions } from '../entities/SelectedOption.entity';
+import { Coupon } from 'src/coupon/entities/Coupon.entity';
 
 export class GetStreamedOrderResponseDTO {
   @Expose()
@@ -27,6 +28,10 @@ export class GetOrderResponseDTO {
 
   @Expose()
   createdAt: Date;
+
+  @Expose()
+  @Transform(({ obj: order }: { obj: Order }) => order.coupon)
+  coupon: Coupon;
 
   @Expose()
   @Transform(({ obj: order }: { obj: Order }) => mapOrderItems(order))

@@ -21,7 +21,7 @@ export class CategoryService {
     newCategory.user = user;
     return this.repo.save(newCategory);
   }
-
+  // FIXME : 유저 체크
   async patchCategory(data: PatchCategoryRequestDTO, id: Category['id']) {
     const category = await this.repo.findOne({
       where: { id },
