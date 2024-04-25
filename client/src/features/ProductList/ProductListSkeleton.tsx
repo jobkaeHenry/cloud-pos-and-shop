@@ -18,6 +18,7 @@ const ProductListSkeleton = () => {
               display: "flex",
               alignItems: "center",
               flexDirection: "column",
+              gap:0.5
             }}
           >
             <Skeleton width={"100%"} height={18} />

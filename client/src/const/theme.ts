@@ -61,12 +61,12 @@ const theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#0090a0",
-    },
-    secondary: {
       main: "#b61a85",
       light: "#e51994",
       dark: "#8e1879",
+    },
+    secondary: {
+      main: "#0090a0",
     },
     error: {
       main: "#b61a37",

@@ -38,10 +38,11 @@ const ProductCard = ({ data, ...others }: Props) => {
             display: "flex",
             alignItems: "center",
             flexDirection: "column",
+            gap:0.5
           }}
         >
-          <Typography fontWeight={800}>{data.title}</Typography>
-          <Typography>{`${data.price.toLocaleString()} 원`}</Typography>
+          <Typography fontWeight={800} className="line-clamp-1">{data.title}</Typography>
+          <Typography fontWeight={800} color={'primary.light'}>{`${data.price.toLocaleString()} 원`}</Typography>
         </CardContent>
       </Card>
     </motion.li>

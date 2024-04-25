@@ -16,7 +16,7 @@ const EditMenuPage = () => {
 
   return (
     <Stack rowGap={2}>
-      <Typography variant="h2">메뉴 관리</Typography>
+      <Typography variant="h2" fontWeight={'bold'}>메뉴 관리</Typography>
       <ErrorBoundary fallback={<ErrorMessage />}>
         <Suspense fallback={<></>}>
           <MenuTable />

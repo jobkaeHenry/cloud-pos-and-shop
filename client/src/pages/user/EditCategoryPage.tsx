@@ -8,7 +8,7 @@ import ErrorMessage from "../../components/Loading/Message";
 const EditCategoryPage = () => {
   return (
     <Stack gap={2}>
-      <Typography variant="h2">카테고리 관리</Typography>
+      <Typography variant="h2" fontWeight={'bold'}>카테고리 관리</Typography>
       <Stack flexWrap={"wrap"} direction="row" gap={2}>
         <NewCategoryButton />
         <ErrorBoundary fallback={<ErrorMessage />}>

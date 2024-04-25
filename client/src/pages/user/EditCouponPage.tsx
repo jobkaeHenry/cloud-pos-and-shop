@@ -10,7 +10,7 @@ import ErrorMessage from "../../components/Loading/Message";
 const EditCouponPage = () => {
   return (
     <Stack gap={2}>
-      <Typography variant="h2">쿠폰관리</Typography>
+      <Typography variant="h2" fontWeight={'bold'}>쿠폰관리</Typography>
       <Stack direction={"row"} gap={2} flexWrap={"wrap"}>
         <AddCouponBtn />
         <ErrorBoundary fallback={<ErrorMessage />}>

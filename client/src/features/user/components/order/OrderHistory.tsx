@@ -1,7 +1,7 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 
 import { axiosPrivate } from "./../../../../libs/axios/axios";
-import { Order, OrderedItem } from "../../../../types/Orders";
+import { Order } from "../../../../types/Orders";
 import useMyInfoQuery from "../../../auth/api/useMyInfoQuery";
 import useSSE from "../../../../hooks/useSSE";
 
@@ -19,14 +19,15 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
-import { Box, Typography } from "@mui/material";
-import { Fragment, useState } from "react";
+import { Box } from "@mui/material";
+import { useState } from "react";
+
+import Receipt from "./../../../Purchase/Receipt";
+import getDiscountedPriceByCoupon from "../../../../utils/getDiscountedPriceByCoupon";
+import getPriceToPurchase from "../../../../utils/getPriceToPurchase";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
-// 유틸 분리
-const hasOptions = (orderedItems: OrderedItem[]) =>
-  orderedItems.some(({ option }) => option.length);
 
 const OrderHistory = () => {
   const { data } = useSuspenseQuery({
@@ -54,7 +55,7 @@ const OrderHistory = () => {
   });
 
   return (
-    <TableContainer sx={{ maxHeight: "50vh" }}>
+    <TableContainer sx={{ height: "100%" }}>
       <Table stickyHeader={true}>
         <TableHead>
           <TableRow>
@@ -67,10 +68,10 @@ const OrderHistory = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(({ status, createdAt, id, orderedItems }) => (
+          {data.map(({ status, createdAt, id, orderedItems, coupon }) => (
             <CollapsableRow
               key={id}
-              data={{ status, createdAt, id, orderedItems }}
+              data={{ status, createdAt, id, orderedItems, coupon }}
             />
           ))}
         </TableBody>
@@ -79,8 +80,24 @@ const OrderHistory = () => {
   );
 };
 const CollapsableRow = ({ data }: { data: Order }) => {
-  const { status, createdAt, orderedItems } = data;
+  const { status, createdAt, orderedItems, coupon } = data;
   const [open, setOpen] = useState(false);
+
+  const totalPrice = orderedItems.reduce(
+    (acc, { price, quantity, option }) =>
+      acc +
+      (price + option.reduce((acc, { price }) => acc + price, 0)) * quantity,
+    0
+  );
+  const totlaQuantity = orderedItems.reduce(
+    (acc, { quantity }) => acc + quantity,
+    0
+  );
+  const discountablePrice = getDiscountedPriceByCoupon({
+    coupon,
+    totalPrice: totalPrice,
+  });
+  const priceToPurchase = getPriceToPurchase({ totalPrice, discountablePrice });
 
   return (
     <>
@@ -97,67 +114,31 @@ const CollapsableRow = ({ data }: { data: Order }) => {
         <TableCell>
           {/* 주문 명 */}
           {`${orderedItems[0].title} ${
-            orderedItems.length - 1 > 0
-              ? `외 ${orderedItems.length - 1} 건`
-              : ""
+            orderedItems.length - 1 > 0 ? `외 ${totlaQuantity - 1} 건` : ""
           }`}
         </TableCell>
         <TableCell>
           {/* 총 가격 */}
-          {orderedItems
-            .reduce(
-              (acc, { price, quantity, option }) =>
-                acc +
-                (price + option.reduce((acc, { price }) => acc + price, 0)) *
-                  quantity,
-              0
-            )
-            .toLocaleString()}
-          원
+          {priceToPurchase.toLocaleString()}원
         </TableCell>
-        <TableCell>
-          {orderedItems.reduce((acc, { quantity }) => acc + quantity, 0)}
-        </TableCell>
+        <TableCell>{totlaQuantity}</TableCell>
         <TableCell>{dayjs(createdAt).fromNow()}</TableCell>
         <TableCell>{status}</TableCell>
       </TableRow>
 
-      {/* {hasOptions(orderedItems) && ( */}
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box p={4} width={"50%"} margin={"0 auto"}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>상품명</TableCell>
-                    <TableCell>옵션명</TableCell>
-                    <TableCell>가격</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {orderedItems.map(({ title: menuTitle, option, id }, i) => (
-                    <TableRow key={id}>
-                      <TableCell colSpan={option.length}>{menuTitle}</TableCell>
-                      {option.length > 0 ? (
-                        option.map(({ title: optionTitle, id, price }) => (
-                          <Fragment key={id}>
-                            <TableCell>{optionTitle}</TableCell>
-                            <TableCell>{price}</TableCell>
-                          </Fragment>
-                        ))
-                      ) : (
-                        <TableCell colSpan={2}>-</TableCell>
-                      )}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <Box p={4} margin={"0 auto"}>
+              <Receipt
+                items={orderedItems}
+                priceToPurchase={priceToPurchase}
+                discountablePrice={discountablePrice}
+              />
             </Box>
           </Collapse>
         </TableCell>
       </TableRow>
-      {/* )} */}
     </>
   );
 };
