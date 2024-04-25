@@ -6,11 +6,19 @@ import CompleteLottie from "../../components/Loading/CompleteLottie";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@mui/material";
+import { useRecoilValue } from "recoil";
+import { CartAtom } from "../../recoil/Cart/Atom/CartAtom";
+import { PriceToPurchaseSelector } from "../../recoil/Cart/Selector/CartSelector";
+import { DiscountablePriceSelector } from "../../recoil/Coupon/Selector/DiscountablePriceSelector";
 
 const RecieptModal = () => {
   useResetStatus();
   const { closeModal } = useModal();
   const [isCompleted, setIsCompleted] = useState(false); //Lottie가 로딩완료됬는지 여부
+
+  const cartItems = useRecoilValue(CartAtom);
+  const priceToPurchase = useRecoilValue(PriceToPurchaseSelector); // 총 결제금액
+  const discountablePrice = useRecoilValue(DiscountablePriceSelector); // 할인 가능한 가격
 
   return (
     <>
@@ -22,7 +30,11 @@ const RecieptModal = () => {
             layout
           >
             <ColumnWrapper gap={4}>
-              <Receipt />
+              <Receipt
+                items={cartItems}
+                priceToPurchase={priceToPurchase}
+                discountablePrice={discountablePrice}
+              />
               <Button
                 onClick={closeModal}
                 variant="outlined"

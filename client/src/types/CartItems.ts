@@ -15,7 +15,7 @@ export interface CartItem extends Product {
    * 옵션을 포함한 최종가격
    */
   totalPrice: number;
-  selectedOptions?: Option[];
+  option?: Option[];
 }
 
 export type CartItems = CartItem[];

@@ -5,6 +5,7 @@ import useCart from "../hooks/useCart";
 import { motion } from "framer-motion";
 import React from "react";
 import { Box } from "@mui/material";
+import { OrderedItem } from "../../../types/Orders";
 
 interface Props
   extends Omit<
@@ -55,7 +56,7 @@ const CartElem = React.forwardRef(
 
 export default CartElem;
 
-export const CartElemDetail = ({ data }: { data: CartItem }) => {
+export const CartElemDetail = ({ data }: { data: OrderedItem }) => {
   return (
     <ColumnWrapper gap={4}>
       <RowWrapper className="justify-between">
@@ -66,9 +67,9 @@ export const CartElemDetail = ({ data }: { data: CartItem }) => {
         <span>{`${(data.price * data.quantity).toLocaleString()}원`}</span>
       </RowWrapper>
 
-      {data.selectedOptions.length > 0 && (
+      {data.option.length > 0 && (
         <ColumnWrapper gap={2}>
-          {data.selectedOptions.map((option) => (
+          {data.option.map((option) => (
             <RowWrapper
               className="text-gray-500 justify-between"
               key={option.title}
@@ -83,7 +84,11 @@ export const CartElemDetail = ({ data }: { data: CartItem }) => {
       )}
 
       <span className="text-right font-bold">
-        {`총 ${(data.totalPrice * data.quantity).toLocaleString()}원`}
+        {`총 ${(
+          (data.price +
+            data.option.reduce((acc, { price }) => acc + price, 0)) *
+          data.quantity
+        ).toLocaleString()}원`}
       </span>
     </ColumnWrapper>
   );

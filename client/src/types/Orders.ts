@@ -1,3 +1,4 @@
+import { Coupon } from "./Coupons";
 import { Product } from "./Products";
 
 export interface Order {
@@ -5,6 +6,7 @@ export interface Order {
   createdAt: string;
   orderedItems: OrderedItem[];
   status: "pending" | "cancled" | "success";
+  coupon?: Coupon;
 }
 
 export interface OrderedItem extends Product {

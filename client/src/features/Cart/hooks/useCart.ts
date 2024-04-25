@@ -22,7 +22,7 @@ const useCart = () => {
             ...filteredProduct,
             quantity: 1,
             cartId: newCartId,
-            selectedOptions: selectedOption ?? [],
+            option: selectedOption ?? [],
             totalPrice:
               filteredProduct.price + getOptionPrice(selectedOption ?? []),
           },

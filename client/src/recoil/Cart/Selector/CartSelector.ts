@@ -1,6 +1,7 @@
 import { selector } from "recoil";
 import { CartAtom } from "../Atom/CartAtom";
 import { DiscountablePriceSelector } from "../../Coupon/Selector/DiscountablePriceSelector";
+import getPriceToPurchase from "../../../utils/getPriceToPurchase";
 /**
  * 갯수와 옵션을 포함한 가격을 곱한 최종가격 (할인 적용전)
  */
@@ -35,7 +36,6 @@ export const PriceToPurchaseSelector = selector({
   get: ({ get }) => {
     const totalPrice = get(TotalPriceSelector);
     const discountablePrice = get(DiscountablePriceSelector);
-    const priceToPurChase = totalPrice - discountablePrice;
-    return priceToPurChase > 0 ? priceToPurChase : 0;
+    return getPriceToPurchase({ totalPrice, discountablePrice });
   },
 });
