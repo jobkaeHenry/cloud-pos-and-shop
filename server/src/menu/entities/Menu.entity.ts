@@ -24,6 +24,9 @@ export class Menu {
   @Column()
   description: string;
 
+  @Column({ nullable: true })
+  image: string;
+
   @ManyToOne(() => User, (user) => user.id)
   user: User;
 

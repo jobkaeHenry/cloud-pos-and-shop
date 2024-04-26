@@ -12,6 +12,7 @@ import { Category } from 'src/category/entities/category.entity';
 import { PatchMenuRequestDTO } from './DTO/PatchMenu.dto';
 import { Option } from './entities/Option.entity';
 import { CreateOptionDTO, PatchOptionDTO } from './DTO/Option.dto';
+import { AwsS3Service } from 'src/awsS3/awsS3.service';
 
 @Injectable()
 export class MenuService {
@@ -19,7 +20,8 @@ export class MenuService {
     @InjectRepository(Menu) private menuRepo: Repository<Menu>,
     @InjectRepository(Category) private categoryRepo: Repository<Category>,
     @InjectRepository(Option) private optionRepo: Repository<Option>,
-    private dataSource: DataSource
+    private dataSource: DataSource,
+    private AwsS3Service: AwsS3Service
   ) {}
 
   async getMenuByUserId(userId: User['id']) {
@@ -224,5 +226,23 @@ export class MenuService {
       throw new NotFoundException('존재하지 않는 옵션입니다');
     }
     return existingOption;
+  }
+
+  async uploadImage(
+    file: Express.Multer.File,
+    menuId: Menu['id'],
+    userId: User['id']
+  ) {
+    const existingMenu = await this.menuRepo.findOne({
+      where: {
+        id: menuId,
+        user: { id: userId },
+      },
+      relations: ['user'],
+    });
+    if (!existingMenu) {
+      new BadRequestException('존재하지 않는 메뉴다니다');
+    }
+    return { image: await this.AwsS3Service.uploadToS3(file) };
   }
 }

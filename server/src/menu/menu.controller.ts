@@ -7,7 +7,9 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { CreateMenuDTO, GetSingleMenuDTO } from './DTO/CreateMenu.dto';
@@ -22,6 +24,8 @@ import {
   PatchOptionDTO,
 } from './DTO/Option.dto';
 import { GetAllMenuDTO } from './DTO/GetAllMenu.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { checkIsImage } from 'src/awsS3/utils/fileFilter';
 
 @UseGuards(AuthGuard())
 @Controller('menu')
@@ -38,6 +42,16 @@ export class MenuController {
   @Serialize(GetSingleMenuDTO)
   async createMenu(@GetUser() user: User, @Body() data: CreateMenuDTO) {
     return this.menuService.createMenu(data, user);
+  }
+
+  @Post(':id/image')
+  @UseInterceptors(FileInterceptor('file', { fileFilter: checkIsImage }))
+  async uploadImage(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('id', ParseIntPipe) menuId: number,
+    @GetUser() user: User
+  ) {
+    return await this.menuService.uploadImage(file, menuId, user.id);
   }
 
   @Patch(':id')

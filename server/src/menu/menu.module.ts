@@ -7,9 +7,14 @@ import { Menu } from './entities/Menu.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { Category } from 'src/category/entities/category.entity';
 import { Option } from './entities/Option.entity';
+import { AwsS3Module } from 'src/awsS3/awsS3.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Menu, Category, Option]), AuthModule],
+  imports: [
+    TypeOrmModule.forFeature([Menu, Category, Option]),
+    AuthModule,
+    AwsS3Module,
+  ],
   providers: [MenuService],
   controllers: [MenuController, PublicMenuController],
 })
