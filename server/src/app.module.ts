@@ -12,6 +12,7 @@ import { CategoryModule } from './category/category.module';
 import { SettingModule } from './setting/setting.module';
 import { OrderModule } from './order/order.module';
 import { SseModule } from './sse/sse.module';
+import { AwsS3Module } from './awsS3/awsS3.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { SseModule } from './sse/sse.module';
     SettingModule,
     OrderModule,
     SseModule,
+    AwsS3Module,
   ],
   controllers: [AppController],
   providers: [AppService],
