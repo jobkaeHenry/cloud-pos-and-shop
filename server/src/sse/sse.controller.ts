@@ -1,4 +1,10 @@
-import { Controller, Param, Sse, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Param,
+  ParseIntPipe,
+  Sse,
+  UseGuards,
+} from '@nestjs/common';
 import { SseService } from './sse.service';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/jwt/getUser.decorator';
@@ -13,7 +19,7 @@ export class SseController {
   @UseGuards(AuthGuard())
   @Serialize(GetStreamedOrderResponseDTO)
   async subscribeNewOrder(
-    @Param('shopId') shopId: string,
+    @Param('shopId', ParseIntPipe) shopId: number,
     @GetUser() user: User
   ) {
     return this.sseService.subscribeNewOrder(shopId, user);
