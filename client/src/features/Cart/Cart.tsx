@@ -1,17 +1,19 @@
 import CartList from "./Components/CartList";
-import CartAdjustPannel from "./Components/CartAdjustPannel";
 import CartCTAPannel from "./Components/CartCTAPannel";
+import { Box, Stack } from "@mui/material";
+import CartListResponsiveWrapper from "./Components/CartListResponsiveWrapper";
 
 const Cart = () => {
   return (
-    <>
-      {/* 상단 컨트롤패널 */}
-      <CartAdjustPannel />
-      {/* 카트 리스트 */}
-      <CartList />
-      {/* 최종 */}
-      <CartCTAPannel />
-    </>
+    <Stack>
+      <CartListResponsiveWrapper>
+        <CartList />
+      </CartListResponsiveWrapper>
+
+      <Box zIndex={1201}>
+        <CartCTAPannel />
+      </Box>
+    </Stack>
   );
 };
 

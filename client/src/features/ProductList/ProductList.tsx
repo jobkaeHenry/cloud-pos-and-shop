@@ -23,7 +23,7 @@ const ProdutcList = () => {
   };
 
   return (
-    <ul className="grid gap-4 p-8 grid-cols-2  lg:grid-cols-4 xl:grid-cols-5">
+    <ul className="grid gap-4 p-8 grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
       {filteredData.map((product) => (
         <ProductCard
           data={product}

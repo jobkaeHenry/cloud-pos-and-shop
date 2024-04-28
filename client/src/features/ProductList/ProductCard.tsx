@@ -4,8 +4,8 @@ import { MotionProps, motion } from "framer-motion";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import ProductImage from "./ProductImage";
 
 interface Props extends MotionProps {
   data: Product;
@@ -20,29 +20,29 @@ const ProductCard = ({ data, ...others }: Props) => {
     <motion.li
       whileTap={{
         scale: 0.95,
-        backgroundColor: "#f5ecff",
         transition: { duration: 0.1 },
       }}
       {...others}
     >
-      <Card>
-        <CardMedia
-          component={"img"}
-          sx={{ aspectRatio: 1.2 }}
-          src="https://mui.com/static/images/cards/paella.jpg"
-          alt={"test"}
-        />
+      <Card className="cursor-pointer">
+        <ProductImage src={data.image} alt={data.title} />
         <CardContent
           sx={{
             textAlign: "center",
             display: "flex",
             alignItems: "center",
+            justifyContent: "center",
             flexDirection: "column",
-            gap:0.5
+            gap: 0.5,
+            height: "98px",
           }}
         >
-          <Typography fontWeight={800} className="line-clamp-1">{data.title}</Typography>
-          <Typography fontWeight={800} color={'primary.light'}>{`${data.price.toLocaleString()} 원`}</Typography>
+          <Typography fontWeight={800} className="line-clamp-2">
+            {data.title}
+          </Typography>
+          <Typography fontWeight={800} color={"error.main"}>
+            &#8361; {data.price.toLocaleString()}
+          </Typography>
         </CardContent>
       </Card>
     </motion.li>

@@ -61,15 +61,14 @@ const theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#b61a85",
-      light: "#e51994",
-      dark: "#8e1879",
+      main: "#ff3c88",
     },
+    text: { primary: "#444" },
     secondary: {
       main: "#0090a0",
     },
     error: {
-      main: "#b61a37",
+      main: "#FF4242",
     },
     success: {
       main: "#85b61a",
@@ -96,23 +95,21 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: "0 16px",
+          borderRadius: "14px 0",
         },
       },
     },
     MuiCardMedia: {
       styleOverrides: {
         root: ({ theme }) => ({
-          borderRadius: "0 16px",
-          backgroundColor: theme.palette.grey[200],
+          borderRadius: "14px 0",
+          backgroundColor: theme.palette.grey[50],
+          boxShadow: "-2px 2px 8px 0px rgba(0, 0, 0, 0.1)",
         }),
       },
     },
     MuiButtonBase: {
       styleOverrides: { root: { gap: 4, borderRadius: 8 } },
-    },
-    MuiSvgIcon: {
-      styleOverrides: { root: { color: "#8A8A8A" } },
     },
     MuiAppBar: {
       styleOverrides: {
@@ -180,5 +177,4 @@ declare module "@mui/material/Typography" {
     body2: false;
   }
 }
-
 export default theme;

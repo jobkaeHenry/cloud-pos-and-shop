@@ -32,6 +32,7 @@ export class OrderService {
     const orders = await this.orderRepo.find({
       where: { user: { id: user.id } },
       relations: ['user', 'coupon'],
+      order: { id: 'DESC' },
     });
     if (!orders) {
       throw new BadRequestException('존재하지 않는 유저입니다');

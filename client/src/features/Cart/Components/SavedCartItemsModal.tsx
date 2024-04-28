@@ -7,7 +7,7 @@ import { getLS } from "../../../utils/localStorage";
 import { RowWrapper } from "../../../layouts/Wrapper";
 import { useSetRecoilState } from "recoil";
 import useCart from "../hooks/useCart";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 
 // 추후 confirm Modal 등 으로 재사용이 용이하게 바꾸는 것 도 고려해볼 만 함
 
@@ -16,12 +16,12 @@ const UseSavedCartItemsModal = () => {
   const { reset } = useCart();
   const setCartItem = useSetRecoilState(CartAtom);
   return (
-    <ColumnWrapper gap={8} className="w-[280px] relative justify-between">
-      <ColumnWrapper>
+    <Stack gap={4} className="w-[280px] relative justify-between">
+      <Stack gap={1}>
         <span className="font-semibold text-xl">장바구니 불러오기</span>
         <span>이전 장바구니 목록이있습니다 불러오시겠습니까?</span>
-      </ColumnWrapper>
-      <RowWrapper gap={2}>
+      </Stack>
+      <Stack direction={"row"} gap={1}>
         <Button
           fullWidth
           variant="outlined"
@@ -43,8 +43,8 @@ const UseSavedCartItemsModal = () => {
         >
           불러오기
         </Button>
-      </RowWrapper>
-    </ColumnWrapper>
+      </Stack>
+    </Stack>
   );
 };
 

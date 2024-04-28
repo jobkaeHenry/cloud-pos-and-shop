@@ -12,6 +12,7 @@ export class CategoryService {
   async getCategoryByUserToken(user: User) {
     const category = await this.repo.find({
       where: { user: { id: user.id } },
+      order: { id: 'DESC' },
     });
     return category;
   }

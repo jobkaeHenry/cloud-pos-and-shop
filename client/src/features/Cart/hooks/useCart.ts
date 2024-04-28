@@ -4,6 +4,7 @@ import { Option, Product } from "../../../types/Products";
 import { generateCartItemID } from "../utils/generateCartItemID";
 import { getOptionPrice } from "../utils/getTotalPrice";
 import { CartItem } from "../../../types/CartItems";
+import { useCallback } from "react";
 
 const useCart = () => {
   const setCartItem = useSetRecoilState(CartAtom);
@@ -74,7 +75,14 @@ const useCart = () => {
     setCartItem([]);
   };
 
-  return { add, reset, remove, changeQuantity };
+  const plusQuantity = (itemId: string) =>
+    changeQuantity(itemId, (prev) => prev + 1);
+
+  const minusQuantity = (itemId: string) => {
+    changeQuantity(itemId, (prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
+  return { add, reset, remove, changeQuantity, plusQuantity, minusQuantity };
 };
 
 export default useCart;

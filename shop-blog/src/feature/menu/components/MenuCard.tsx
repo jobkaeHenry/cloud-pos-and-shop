@@ -36,7 +36,7 @@ const MenuCard = ({ data }: MenuCardProps) => {
             minWidth={110}
           >
             <Typography>기본가</Typography>
-            <Typography>{`${price.toLocaleString()}원`}</Typography>
+            <Typography>&#8361; {price.toLocaleString()}</Typography>
           </Stack>
           {option && (
             <>
@@ -48,7 +48,7 @@ const MenuCard = ({ data }: MenuCardProps) => {
                   key={id}
                 >
                   <Typography>{title}</Typography>
-                  <Typography>{`${price.toLocaleString()}원`}</Typography>
+                <Typography>&#8361; {price.toLocaleString()}</Typography>
                 </Stack>
               ))}
             </>

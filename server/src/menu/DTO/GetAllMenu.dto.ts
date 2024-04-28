@@ -13,6 +13,9 @@ export class GetAllMenuDTO {
   description: string;
 
   @Expose()
+  image: string;
+
+  @Expose()
   id: number;
 
   @Expose()

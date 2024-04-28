@@ -27,6 +27,7 @@ export class MenuService {
   async getMenuByUserId(userId: User['id']) {
     const menuArr = await this.menuRepo.find({
       where: { user: { id: userId } },
+      order: { id: 'DESC' },
       relations: ['category', 'option'],
     });
     // menuArr 내의 각각의 메뉴에 대해 option이 빈 배열인 경우 해당 option을 제거
@@ -41,6 +42,7 @@ export class MenuService {
     const menuArr = await this.menuRepo.find({
       where: { user: { setting: { domainName } } },
       relations: ['category', 'option'],
+      order: { id: 'DESC' },
     });
     const filteredMenuArr = menuArr.map((menu) => ({
       ...menu,
@@ -155,6 +157,15 @@ export class MenuService {
       // 넣어줘야 cascade가 작동함
       relations: ['option'],
     });
+    if (!menuToDelete) {
+      throw new NotFoundException('존재하지 않는 메뉴입니다');
+    }
+    const { image } = menuToDelete;
+    if (image) {
+      await this.AwsS3Service.deleteImageFromS3(
+        image.split('/')[image.split('/').length - 1]
+      );
+    }
     await this.menuRepo.softRemove(menuToDelete);
   }
 
@@ -241,8 +252,17 @@ export class MenuService {
       relations: ['user'],
     });
     if (!existingMenu) {
-      new BadRequestException('존재하지 않는 메뉴다니다');
+      new BadRequestException('존재하지 않는 메뉴입니다');
     }
-    return { image: await this.AwsS3Service.uploadToS3(file) };
+    const existingImageUrl = existingMenu.image;
+    const image = await this.AwsS3Service.uploadToS3(file);
+    await this.menuRepo.update(existingMenu.id, { image });
+
+    if (existingImageUrl) {
+      await this.AwsS3Service.deleteImageFromS3(
+        existingImageUrl.split('/')[image.split('/').length - 1]
+      );
+    }
+    return { image };
   }
 }

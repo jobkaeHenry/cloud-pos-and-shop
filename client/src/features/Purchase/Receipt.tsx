@@ -1,6 +1,6 @@
 import { ColumnWrapper } from "../../layouts/Wrapper";
 import { OrderedItem } from "../../types/Orders";
-import { CartElemDetail } from "../Cart/Components/CartElem";
+import { CartElemContent } from "../Cart/Components/CartElemContent";
 
 interface ReceiptProps {
   items: OrderedItem[];
@@ -22,7 +22,7 @@ const Receipt = ({
       <ul className="flex flex-col gap-9 mt-4">
         {items.map((cartItem, i) => (
           <li key={i}>
-            <CartElemDetail data={cartItem} />
+            <CartElemContent data={cartItem} />
           </li>
         ))}
       </ul>

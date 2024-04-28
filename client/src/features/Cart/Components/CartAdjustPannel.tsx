@@ -9,8 +9,9 @@ import CouponModal from "../../Coupon/CouponModal";
 import useModal from "../../../hooks/useModal";
 import useCart from "../hooks/useCart";
 import { usePrefetchCouponQuery } from "../../Coupon/api/useCouponQuery";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 
+/** @deprecated 사용되지않음*/
 const CartAdjustPannel = () => {
   const selectedItemId = useRecoilValue(SelectedItemAtom); // 현재 유저가 선택한 아이템 ID
   const selectedCoupon = useRecoilValue(selectedCouponAtom); // 현재 유저가 선택한 쿠폰
@@ -30,20 +31,24 @@ const CartAdjustPannel = () => {
   const { openModal } = useModal();
 
   const plusQuantity = useCallback(
-    () => changeQuantity(selectedItemId, (prev) => prev + 1),
-    [selectedItemId, changeQuantity]
+    (itemId: string) => changeQuantity(itemId, (prev) => prev + 1),
+    [changeQuantity]
   );
 
-  const minusQuantity = useCallback(() => {
-    changeQuantity(selectedItemId, (prev) => (prev > 1 ? prev - 1 : 1));
-  }, [selectedItemId, changeQuantity]);
+  const minusQuantity = useCallback(
+    (itemId: string) => {
+      changeQuantity(itemId, (prev) => (prev > 1 ? prev - 1 : 1));
+    },
+    [changeQuantity]
+  );
 
   const prefetchCoupon = usePrefetchCouponQuery(); // 패널에 마우스를 올릴 시 할인을 적용할 가능성이 있다고 보고 쿠폰을 미리 패치
 
   return (
-    <ColumnWrapper
-      gap={2}
-      className="p-2 h-[100px] fixed top-[50vh] w-full sm:top-[60px] sm:w-[320px] bg-white border-y border-y-gray-300 sm:border-t-0 z-10"
+    <Stack
+      gap={1}
+      p={1}
+      className="p-2 fixed top-[50vh] w-full sm:top-[60px] sm:w-[320px] bg-white border-y border-y-gray-300 sm:border-t-0 z-10"
       onMouseOver={prefetchCoupon}
     >
       <div className="flex flex-row justify-between items-center">
@@ -63,8 +68,8 @@ const CartAdjustPannel = () => {
           쿠폰적용하기
         </Button>
       </div>
-      <RowWrapper gap={2}>
-        <Button
+      {/*<RowWrapper gap={2}>
+         <Button
           disabled={!selectedItemId}
           size="small"
           fullWidth
@@ -85,9 +90,9 @@ const CartAdjustPannel = () => {
           onClick={plusQuantity}
         >
           +
-        </Button>
-      </RowWrapper>
-    </ColumnWrapper>
+        </Button> 
+      </RowWrapper>*/}
+    </Stack>
   );
 };
 

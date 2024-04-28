@@ -1,11 +1,14 @@
-import { DetailedHTMLProps, LiHTMLAttributes } from "react";
+import { DetailedHTMLProps, LiHTMLAttributes, forwardRef } from "react";
 import { CartItem } from "../../../types/CartItems";
-import { ColumnWrapper, RowWrapper } from "../../../layouts/Wrapper";
+
 import useCart from "../hooks/useCart";
 import { motion } from "framer-motion";
-import React from "react";
-import { Box } from "@mui/material";
-import { OrderedItem } from "../../../types/Orders";
+import { IconButton, Stack } from "@mui/material";
+
+import ProductImage from "../../ProductList/ProductImage";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { CartElemContent } from "./CartElemContent";
+import NumberInput from "../../../components/Atom/NumberInput";
 
 interface Props
   extends Omit<
@@ -17,19 +20,27 @@ interface Props
   onClick?: (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => void;
 }
 
-const CartElem = React.forwardRef(
+const CartElem = forwardRef(
   (
     { data, onClick, highlighted }: Props,
     ref: React.ForwardedRef<HTMLLIElement>
   ) => {
-    const { remove } = useCart();
+    const { remove, plusQuantity, minusQuantity } = useCart();
+    const { quantity, cartId, image, title } = data;
 
     return (
-      <Box
+      <Stack
         component={motion.li}
-        className={"p-4 border bg-white select-none cursor-pointer "}
-        sx={{ borderColor: highlighted ? "secondary.main" : "font.disabled" }}
-        onClick={(e) => onClick && onClick(e)}
+        className={"select-none"}
+        p={2}
+        gap={2}
+        bgcolor={"background.paper"}
+        border={"1px solid"}
+        borderColor={"grey.100"}
+        direction={"row"}
+        justifyContent={"space-between"}
+        alignItems={"start"}
+        // 모션프롭
         initial={{ opacity: 0, x: "-100%" }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: "100%", transition: { duration: 0.1 } }}
@@ -37,59 +48,46 @@ const CartElem = React.forwardRef(
         layout
         ref={ref}
       >
-        <div className="flex justify-end">
-          <button
-            className="px-4 pr-0 pb-4 justify-self-end"
-            onClick={(event) => {
-              event.stopPropagation();
-              remove(data.cartId);
-            }}
+        <ProductImage
+          src={image}
+          alt={title}
+          sx={{ maxHeight: "48px", width: "auto" }}
+        />
+        <Stack
+          flexGrow={1}
+          direction={"column"}
+          justifyContent={"space-between"}
+          alignItems={"start"}
+          gap={2}
+        >
+          <CartElemContent data={data} notShowQuantity />
+
+          <Stack
+            alignSelf={"end"}
+            direction={"row"}
+            alignItems={"center"}
+            gap={2}
           >
-            x
-          </button>
-        </div>
-        <CartElemDetail data={data} />
-      </Box>
+            <NumberInput
+              value={quantity}
+              onClickMinus={() => minusQuantity(cartId)}
+              onClickPlus={() => plusQuantity(cartId)}
+            />
+
+            <IconButton
+              onClick={() => {
+                remove(cartId);
+              }}
+              color="primary"
+              sx={{ bgcolor: "grey.100" }}
+            >
+              <DeleteOutlineIcon />
+            </IconButton>
+          </Stack>
+        </Stack>
+      </Stack>
     );
   }
 );
 
 export default CartElem;
-
-export const CartElemDetail = ({ data }: { data: OrderedItem }) => {
-  return (
-    <ColumnWrapper gap={4}>
-      <RowWrapper className="justify-between">
-        <RowWrapper gap={2}>
-          <span className="font-bold">{data.title}</span>
-          <span>{`x ${data.quantity}`}</span>
-        </RowWrapper>
-        <span>{`${(data.price * data.quantity).toLocaleString()}원`}</span>
-      </RowWrapper>
-
-      {data.option.length > 0 && (
-        <ColumnWrapper gap={2}>
-          {data.option.map((option) => (
-            <RowWrapper
-              className="text-gray-500 justify-between"
-              key={option.title}
-            >
-              <span className="before:content-['└'] before:mr-1">
-                {option.title}
-              </span>
-              <span>{`${(option.price ?? 0).toLocaleString()}원`}</span>
-            </RowWrapper>
-          ))}
-        </ColumnWrapper>
-      )}
-
-      <span className="text-right font-bold">
-        {`총 ${(
-          (data.price +
-            data.option.reduce((acc, { price }) => acc + price, 0)) *
-          data.quantity
-        ).toLocaleString()}원`}
-      </span>
-    </ColumnWrapper>
-  );
-};
