@@ -151,7 +151,7 @@ export class OrderService {
       await queryRunner.commitTransaction();
       const createdOrder = await this.orderRepo.findOne({
         where: { id: savedNewOrder.id },
-        relations: ['user'],
+        relations: ['user', 'coupon'],
       });
       this.SseService.emitNewOrder(createdOrder);
       return createdOrder;

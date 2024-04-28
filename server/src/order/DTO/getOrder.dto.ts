@@ -8,12 +8,13 @@ export class GetStreamedOrderResponseDTO {
   @Expose()
   @Transform(({ obj: stream }: { obj: MessageEvent<Order> }) => {
     const { data } = stream;
-    const { status, id, createdAt } = data;
+    const { status, id, createdAt, coupon } = data;
     return {
       status,
       id,
       createdAt,
       orderedItems: mapOrderItems(data),
+      coupon,
     };
   })
   data: typeof GetOrderResponseDTO;
