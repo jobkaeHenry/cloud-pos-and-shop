@@ -9,6 +9,7 @@ import useModal from "../../../hooks/useModal";
 import RecieptModal from "../../Purchase/ReceiptModal";
 import { Button, Stack, Typography } from "@mui/material";
 import { CART_CTA_HEIGHT, DRAWER_WIDTH } from "../../../const/UiSize";
+import PurchaseMultiStepForm from "../../Purchase/PurchaseMultiStepForm";
 
 const CartCTAPannel = () => {
   const totalQuantity = useRecoilValue(TotalQuantitySelector); // 총 아이템갯수
@@ -42,7 +43,10 @@ const CartCTAPannel = () => {
         </Typography>
       </Stack>
 
-      <Button onClick={() => openModal(<RecieptModal />)} disabled={hasItems}>
+      <Button
+        onClick={() => openModal(<PurchaseMultiStepForm />)}
+        disabled={hasItems}
+      >
         {`총 ${totalQuantity}개 구매`}
       </Button>
     </Stack>

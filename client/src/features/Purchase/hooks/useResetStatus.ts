@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback } from "react";
 import useCart from "../../Cart/hooks/useCart";
 import { useResetRecoilState } from "recoil";
 import { selectedCouponAtom } from "../../../recoil/Coupon/Atom/selectedCouponAtom";
@@ -12,14 +12,11 @@ const useResetStatus = () => {
   const resetCoupon = useResetRecoilState(selectedCouponAtom);
   const invalidateCoupon = useInvalidateCouponQuery();
 
-  useEffect(() => {
+  return useCallback(() => {
     invalidateCoupon(); //쿠폰 쿼리 초기화
-    return () => {
-      //선택된 쿠폰을 초기화
-      resetCartItems(); // 장바구니 아이템을 초기화
-      resetCoupon(); // 쿠폰 초기화
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    //선택된 쿠폰을 초기화
+    resetCartItems(); // 장바구니 아이템을 초기화
+    resetCoupon(); // 쿠폰 초기화
   }, []);
 };
 

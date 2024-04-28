@@ -3,27 +3,58 @@ import useModal from "../../hooks/useModal";
 import useResetStatus from "./hooks/useResetStatus";
 import Receipt from "./Receipt";
 import CompleteLottie from "../../components/Loading/CompleteLottie";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@mui/material";
 import { useRecoilValue } from "recoil";
-import { CartAtom } from "../../recoil/Cart/Atom/CartAtom";
-import { PriceToPurchaseSelector } from "../../recoil/Cart/Selector/CartSelector";
-import { DiscountablePriceSelector } from "../../recoil/Coupon/Selector/DiscountablePriceSelector";
+import { CartItemToOrderDto } from "../../recoil/Cart/Selector/CartSelector";
+import { selectedCouponAtom } from "../../recoil/Coupon/Atom/selectedCouponAtom";
+import useCreateOrderMutation from "./apis/useCreateOrderMutation";
+import { Order } from "../../types/Orders";
+import getPriceToPurchase from "../../utils/getPriceToPurchase";
+import getDiscountedPriceByCoupon from "../../utils/getDiscountedPriceByCoupon";
+import ErrorMessage from "../../components/Loading/Message";
 
 const RecieptModal = () => {
-  useResetStatus();
   const { closeModal } = useModal();
-  const [isCompleted, setIsCompleted] = useState(false); //Lottie가 로딩완료됬는지 여부
+  const resetStatus = useResetStatus();
+  const [isLottieCompleted, setIsLottieCompleted] = useState(false); //Lottie가 로딩완료됬는지 여부
 
-  const cartItems = useRecoilValue(CartAtom);
-  const priceToPurchase = useRecoilValue(PriceToPurchaseSelector); // 총 결제금액
-  const discountablePrice = useRecoilValue(DiscountablePriceSelector); // 할인 가능한 가격
+  const [orderedItem, setOrderedItem] = useState<Order>();
+
+  const { mutateAsync, isError, isSuccess } = useCreateOrderMutation({
+    onSuccess: (data) => {
+      resetStatus();
+      setOrderedItem(data);
+    },
+  });
+
+  const orderedItems = useRecoilValue(CartItemToOrderDto);
+  const coupon = useRecoilValue(selectedCouponAtom);
+
+  useEffect(() => {
+    mutateAsync({
+      couponId: coupon === "" ? undefined : coupon.id,
+      orderedItems: orderedItems,
+    });
+  }, []);
+
+  const totalPrice = (orderedItem?.orderedItems ?? []).reduce(
+    (acc, { price, quantity, option }) =>
+      acc +
+      (price + option.reduce((acc, { price }) => acc + price, 0)) * quantity,
+    0
+  );
+  const discountablePrice = getDiscountedPriceByCoupon({
+    coupon: orderedItem?.coupon ?? "",
+    totalPrice: totalPrice,
+  });
+  const priceToPurchase = getPriceToPurchase({ totalPrice, discountablePrice });
 
   return (
     <>
       <AnimatePresence mode={"popLayout"}>
-        {isCompleted ? (
+        {isLottieCompleted && isSuccess && (
           <motion.div
             initial={{ opacity: 0, scale: 1 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -31,7 +62,7 @@ const RecieptModal = () => {
           >
             <ColumnWrapper gap={4}>
               <Receipt
-                items={cartItems}
+                items={orderedItem.orderedItems}
                 priceToPurchase={priceToPurchase}
                 discountablePrice={discountablePrice}
               />
@@ -45,7 +76,9 @@ const RecieptModal = () => {
               </Button>
             </ColumnWrapper>
           </motion.div>
-        ) : (
+        )}
+
+        {!isLottieCompleted && !isError && (
           <>
             <AnimatePresence>
               <motion.div
@@ -54,12 +87,17 @@ const RecieptModal = () => {
                 style={{ width: 200, height: 200 }}
                 layout
               >
-                <CompleteLottie onComplete={() => setIsCompleted(true)} />
+                <CompleteLottie onComplete={() => setIsLottieCompleted(true)} />
               </motion.div>
             </AnimatePresence>
           </>
         )}
       </AnimatePresence>
+      {isError && (
+        <div>
+          <ErrorMessage />
+        </div>
+      )}
     </>
   );
 };

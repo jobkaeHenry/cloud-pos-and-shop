@@ -50,7 +50,7 @@ const OrderHistory = () => {
       const { data } = await message;
       queryclient.cancelQueries({ queryKey: ["order"] });
       const querySnapshot = queryclient.getQueryData<Order[]>(["order"]);
-      queryclient.setQueryData(["order"], [...querySnapshot, JSON.parse(data)]);
+      queryclient.setQueryData(["order"], [JSON.parse(data),...querySnapshot]);
     },
   });
 

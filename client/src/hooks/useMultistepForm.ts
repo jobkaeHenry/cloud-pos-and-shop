@@ -1,28 +1,17 @@
-import { ReactElement, cloneElement, useEffect, useState } from "react";
+import { ReactElement, cloneElement, useState } from "react";
 
 const useMultistepForm = (steps: ReactElement[], initialPage: number) => {
   const [currentIndex, setCurrentIndex] = useState(initialPage);
 
-  useEffect(() => {
-    window.addEventListener("popstate", back);
-    return () => {
-      window.removeEventListener("popstate", back);
-    };
-  }, []);
-
   /** 현재 index 직후의 컴포넌트로 이동하게 하는 함수 */
   const next = () => {
     setCurrentIndex((prev) => {
-      window.history.pushState(
-        { ...window.history.state, isMultiStepForm: true },
-        "",
-        window.location.href
-      );
       if (prev < steps.length - 1) {
         return prev + 1;
       } else return prev;
     });
   };
+
   /** 현재 index 직전의 컴포넌트로 이동하게 하는 함수 */
   const back = () => {
     setCurrentIndex((prev) => {
