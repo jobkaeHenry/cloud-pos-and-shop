@@ -26,6 +26,10 @@ export class CreateMenuDTO {
   @IsNumber()
   categoryId: number;
 
+  @IsString()
+  @IsOptional()
+  adminMemo: string;
+
   @IsArray()
   @IsOptional()
   option: CreateOptionDTO[];
@@ -47,6 +51,9 @@ export class GetSingleMenuDTO {
   @Transform(({ obj }: { obj: Menu }) => obj.category)
   @Expose()
   category: Category;
+
+  @Expose()
+  adminMemo: string;
 
   @Transform(({ obj }: { obj: Menu }) => obj.user.id)
   @Expose()

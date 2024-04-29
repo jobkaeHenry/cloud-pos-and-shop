@@ -5,6 +5,7 @@ export interface Product {
   category: Category;
   title: string;
   option?: Option[];
+  adminMemo?: string;
   price: number;
   description: string;
   image?: string;

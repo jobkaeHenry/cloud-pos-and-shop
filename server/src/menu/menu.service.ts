@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Menu } from './entities/Menu.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, QueryRunner, Repository } from 'typeorm';
 import { User } from 'src/user/entities/User.entity';
 import { CreateMenuDTO } from './DTO/CreateMenu.dto';
 import { Category } from 'src/category/entities/category.entity';
@@ -70,9 +70,22 @@ export class MenuService {
       newMenu.user = user;
       newMenu.category = existingCategory;
       await queryRunner.manager.save(newMenu);
+      // FIXME 아래에 정의된 createOptionByArray 를사용해야함
+      if (option.length > 0) {
+        const existingMenu = await this.findMenuById(newMenu.id);
 
-      if (option) {
-        await this.createOptionByArray(option, newMenu.id);
+        // Promise 배열을 저장하기 위한 배열
+        const savePromises = option.map(({ title, price }) => {
+          const newOption = queryRunner.manager.create(Option, {
+            title,
+            price,
+          });
+          newOption.menu = existingMenu;
+          return queryRunner.manager.save(newOption);
+        });
+
+        // 모든 Promise가 완료될 때까지 기다림
+        await Promise.all(savePromises);
       }
 
       return newMenu;
@@ -179,8 +192,13 @@ export class MenuService {
     return this.optionRepo.save(newOption);
   }
 
-  async createOptionByArray(option: CreateOptionDTO[], menuId: Menu['id']) {
-    const queryRunner = this.dataSource.createQueryRunner();
+  async createOptionByArray(
+    option: CreateOptionDTO[],
+    menuId: Menu['id'],
+    passedQueryRunner?: QueryRunner
+  ) {
+    const queryRunner =
+      passedQueryRunner || this.dataSource.createQueryRunner();
     try {
       await queryRunner.connect();
       await queryRunner.startTransaction();

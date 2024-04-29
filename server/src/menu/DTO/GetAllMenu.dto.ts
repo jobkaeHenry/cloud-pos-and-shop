@@ -23,4 +23,7 @@ export class GetAllMenuDTO {
 
   @Expose()
   option: Option;
+
+  @Expose()
+  adminMemo: string;
 }

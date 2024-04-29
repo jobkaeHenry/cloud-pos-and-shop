@@ -46,7 +46,7 @@ function mapOrderItems(order: Order) {
 
 function mapOrderItem(orderItem: OrderItem) {
   const { menu, quantity, selectedOptions } = orderItem;
-  const { id: menuId, title, price, description } = menu;
+  const { id: menuId, title, price, description, adminMemo } = menu;
   const transformedOptions = mapSelectedOptions(selectedOptions);
 
   return {
@@ -56,6 +56,7 @@ function mapOrderItem(orderItem: OrderItem) {
     description,
     option: transformedOptions,
     quantity,
+    adminMemo,
   };
 }
 

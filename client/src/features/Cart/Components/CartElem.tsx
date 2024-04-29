@@ -22,7 +22,10 @@ interface Props
 
 const CartElem = forwardRef(
   (
-    { data, onClick, highlighted }: Props,
+    {
+      data,
+    }: // onClick, highlighted
+    Props,
     ref: React.ForwardedRef<HTMLLIElement>
   ) => {
     const { remove, plusQuantity, minusQuantity } = useCart();

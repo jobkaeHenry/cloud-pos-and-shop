@@ -4,22 +4,22 @@ import { useRecoilValue } from "recoil";
 import useModal from "../../hooks/useModal";
 import useGetProductQueryByCategory from "./api/useProductQuery";
 import OptionModal from "../Cart/Components/OptionModal";
-import useCart from "../Cart/hooks/useCart";
+// import useCart from "../Cart/hooks/useCart";
 import { Product } from "../../types/Products";
 
 const ProdutcList = () => {
   // 현재 카테고리
   const CurrentCategory = useRecoilValue(CurrentCategoryAtom);
   const { data: filteredData } = useGetProductQueryByCategory(CurrentCategory);
-  const { add } = useCart();
+  // const { add } = useCart();
   const { openModal } = useModal();
 
   const addToCartHandler = (product: Product) => {
-    if (product.option) {
-      openModal(<OptionModal data={product} />);
-    } else {
-      add(product);
-    }
+    // if (product.option) {
+    openModal(<OptionModal data={product} />);
+    // } else {
+    //   add(product);
+    // }
   };
 
   return (

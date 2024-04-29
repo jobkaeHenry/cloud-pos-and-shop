@@ -1,12 +1,12 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Stack, StackProps, Typography } from "@mui/material";
 import { Coupon } from "../../../types/Coupons";
 import ParsePrice from "../utils/ParsePrice";
-import { ReactNode } from "react";
 
 type CouponCardInterface = {
   onDelete?: (id: number) => void;
   onEdit?: () => void;
-} & Coupon;
+} & Coupon &
+  Omit<StackProps, "id">;
 
 const CouponCard = ({
   title,
@@ -15,9 +15,10 @@ const CouponCard = ({
   type,
   onDelete,
   onEdit,
+  ...stackProps
 }: CouponCardInterface) => {
   return (
-    <CouponWrapper>
+    <CouponWrapper {...stackProps}>
       <Stack direction="column" justifyContent="space-between" p={2}>
         <Typography variant="h2" fontWeight={"bold"} color="primary">
           {ParsePrice(amount, type)}
@@ -51,7 +52,7 @@ const CouponCard = ({
   );
 };
 
-export const CouponWrapper = ({ children }: { children?: ReactNode }) => (
+export const CouponWrapper = ({ children, ...others }: StackProps) => (
   <Stack
     borderRadius={2}
     border={"1px solid"}
@@ -62,6 +63,7 @@ export const CouponWrapper = ({ children }: { children?: ReactNode }) => (
     maxWidth={320}
     width={"100%"}
     height={180}
+    {...others}
   >
     {children}
   </Stack>

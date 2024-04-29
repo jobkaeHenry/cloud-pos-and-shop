@@ -14,6 +14,8 @@ import {
   PatchOptionByArrayDTO,
 } from "../../../ProductList/types/OptionDTO";
 import useDeleteMenuMutation from "../../api/useDeleteMenuMutation";
+import { ImageInput } from "../../../../components/Atom/SingleImageInput";
+import { usePatchImageMutation } from "../../api/usePatchImageMutation";
 
 type Props = {
   productId: Product["id"];
@@ -24,13 +26,16 @@ const MenuEditorModal = ({ productId }: Props) => {
   const { data: categories } = useGetCategoriesQuery();
   const { mutateAsync: patchProductHandler } = usePatchProductMutation();
   const { mutateAsync: deleteProduct } = useDeleteMenuMutation();
+  const { mutateAsync: uploadImage } = usePatchImageMutation();
 
   const [formValue, setFormValue] = useState<PatchProductDTO>({
     title: productDetail.title,
     categoryId: productDetail.category.id,
     description: productDetail.description,
     price: productDetail.price,
+    adminMemo: productDetail.adminMemo ?? "",
   });
+  const [newImage, setNewImage] = useState<File>(null);
 
   const [optionToPatch, setOptionToPatch] = useState<{
     patch?: PatchOptionByArrayDTO[];
@@ -61,6 +66,7 @@ const MenuEditorModal = ({ productId }: Props) => {
       component={"form"}
       onSubmit={async (e) => {
         e.preventDefault();
+        await uploadImage({ file: newImage, menuId: productDetail.id });
         await patchProductHandler({
           menuId: productId,
           formData: {
@@ -112,13 +118,30 @@ const MenuEditorModal = ({ productId }: Props) => {
           value={formValue.price}
         />
       </Stack>
+      <Stack direction={"row"} gap={1}>
+        <ImageInput
+          onFileChange={setNewImage}
+          initialImage={productDetail.image}
+        />
+        <TextField
+          multiline
+          fullWidth
+          rows={3}
+          name="description"
+          label={"상품설명"}
+          placeholder="고객에게 보여지는 상품 설명입니다"
+          onChange={({ target }) => changeHandler(target)}
+          value={formValue.description}
+        />
+      </Stack>
       <TextField
         multiline
-        rows={3}
-        name="description"
-        label={"상품설명"}
+        rows={5}
+        name="adminMemo"
+        label={"점주용 메모"}
+        placeholder="관리자만 확인 가능한 메모입니다 레시피, 직원 지시사항 등을 작성해주세요"
         onChange={({ target }) => changeHandler(target)}
-        value={formValue.description}
+        value={formValue.adminMemo}
       />
       {/* 기존옵션 패치 */}
       <Typography variant="subtitle1">옵션</Typography>

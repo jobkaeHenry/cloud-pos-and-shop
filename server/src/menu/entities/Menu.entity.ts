@@ -25,6 +25,9 @@ export class Menu {
   description: string;
 
   @Column({ nullable: true })
+  adminMemo: string;
+
+  @Column({ nullable: true })
   image: string;
 
   @ManyToOne(() => User, (user) => user.id)

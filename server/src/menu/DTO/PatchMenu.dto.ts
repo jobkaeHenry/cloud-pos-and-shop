@@ -68,5 +68,9 @@ export class PatchMenuRequestDTO {
   categoryId?: number;
 
   @IsOptional()
+  @IsString()
+  adminMemo?: string;
+
+  @IsOptional()
   option?: PatchMenuRequestOptionDTO;
 }

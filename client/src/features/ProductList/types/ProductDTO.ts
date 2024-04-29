@@ -6,6 +6,7 @@ export interface PatchProductDTO {
   price?: number;
   description?: string;
   categoryId?: number;
+  adminMemo?: string;
   option?: {
     create?: CreateOptionDTO[];
     patch?: PatchOptionByArrayDTO[];
@@ -17,6 +18,7 @@ export interface CreateProductDTO {
   title: string;
   price: number;
   categoryId: number;
+  adminMemo?: string;
   description: string;
   option?: Omit<Option, "id">[];
 }

@@ -19,6 +19,7 @@ const NewMenuModal = () => {
     title: "",
     description: "",
     categoryId: filteredCategory[0]?.id,
+    adminMemo: "",
     //@ts-ignore 빈 값 감지로직과 내부에 number로 바꾸는 로직이 있으므로 문제가 없음
     price: "",
   });
@@ -81,14 +82,26 @@ const NewMenuModal = () => {
         required
         value={formValue.price}
       />
+
       <TextField
         multiline
         rows={3}
         name="description"
         label={"상품설명"}
+        placeholder="고객에게 보여지는 상품 설명입니다"
         onChange={({ target }) => changeHandler(target)}
         required
         value={formValue.description}
+      />
+      <TextField
+        multiline
+        rows={5}
+        name="adminMemo"
+        label={"점주용 메모"}
+        placeholder="관리자만 확인 가능한 메모입니다 레시피, 직원 지시사항 등을 작성해주세요"
+        onChange={({ target }) => changeHandler(target)}
+        required
+        value={formValue.adminMemo}
       />
       <Typography variant="subtitle1">옵션</Typography>
       <NewOptionEditor onChange={setOption} />

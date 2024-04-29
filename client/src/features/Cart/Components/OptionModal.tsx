@@ -2,9 +2,10 @@ import { useCallback, useState } from "react";
 import { Option, Product } from "../../../types/Products";
 import useCart from "../hooks/useCart";
 import useModal from "../../../hooks/useModal";
-import RowWrapper, { ColumnWrapper } from "../../../layouts/Wrapper";
+import RowWrapper from "../../../layouts/Wrapper";
 import Checkbox from "../../../components/Atom/Checkbox";
-import { Button } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
+import ProductImage from "../../ProductList/ProductImage";
 
 type Props = {
   data: Product;
@@ -29,32 +30,42 @@ const OptionModal = ({ data }: Props) => {
   const { closeModal } = useModal();
 
   return (
-    <ColumnWrapper gap={8} className="min-w-[280px] relative justify-between">
-      <ColumnWrapper gap={4}>
-        <ColumnWrapper>
-          <span className="font-semibold text-2xl">{data.title}</span>
-          <span className="text-xl">{`${data.price.toLocaleString()} 원`}</span>
-        </ColumnWrapper>
-        <ColumnWrapper gap={4}>
-          {data.option.map((option) => {
+    <Stack gap={4} className="min-w-[280px] relative justify-between">
+      <Stack gap={2}>
+        <ProductImage
+          src={data.image}
+          alt={data.title}
+          sx={{ maxHeight: "200px", width: "auto" }}
+        />
+        <Stack>
+          <Typography variant={"subtitle1"} fontWeight={"bold"}>
+            {data.title}
+          </Typography>
+          <Typography variant={"subtitle2"}>
+            &#8361; {`${data.price.toLocaleString()}`}
+          </Typography>
+        </Stack>
+
+        <Typography>{data.description}</Typography>
+        <Stack gap={2}>
+          {(data.option ?? []).map((option) => {
             return (
               <Checkbox
                 label={option.title}
-                unit={option.price && `${option.price.toLocaleString()} 원`}
+                unit={
+                  option.price !== undefined &&
+                  `${option.price.toLocaleString()} 원`
+                }
                 key={option.title}
                 onChange={(e) => changeHandler(e, option)}
               />
             );
           })}
-        </ColumnWrapper>
-      </ColumnWrapper>
+        </Stack>
+      </Stack>
       {/* 클릭시, 카트아이디 생성, 옵션 소팅, 토탈프라이스 추가 후 모달 닫기 */}
-      <RowWrapper gap={2}>
-        <Button
-          variant="outlined"
-          fullWidth
-          onClick={closeModal}
-        >
+      <Stack gap={1} direction={"row"}>
+        <Button variant="outlined" fullWidth onClick={closeModal}>
           취소
         </Button>
         <Button
@@ -66,8 +77,8 @@ const OptionModal = ({ data }: Props) => {
         >
           추가
         </Button>
-      </RowWrapper>
-    </ColumnWrapper>
+      </Stack>
+    </Stack>
   );
 };
 
