@@ -26,7 +26,7 @@ export class AwsS3Service {
     file: Express.Multer.File // 업로드할 파일
   ) {
     const uniqueKey = randomUUID({ disableEntropyCache: true });
-    const fileKey = `${uniqueKey}${file.originalname.split('.')[0]}`;
+    const fileKey = `${uniqueKey}${btoa(file.originalname.split('.')[0])}`;
     // AWS S3에 이미지 업로드 명령을 생성합니다. 파일 이름, 파일 버퍼, 파일 접근 권한, 파일 타입 등을 설정합니다.
     const command = new PutObjectCommand({
       Bucket: this.configService.get('AWS_S3_BUCKET_NAME'), // S3 버킷 이름
