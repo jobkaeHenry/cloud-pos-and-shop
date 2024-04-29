@@ -6,12 +6,14 @@ interface ReceiptProps {
   items: OrderedItem[];
   discountablePrice?: number;
   priceToPurchase?: number;
+  onClickElement?: (value: OrderedItem) => void;
 }
 
 const Receipt = ({
   items,
   discountablePrice,
   priceToPurchase,
+  onClickElement,
 }: ReceiptProps) => {
   return (
     <ColumnWrapper
@@ -21,7 +23,7 @@ const Receipt = ({
       <span className="text-2xl font-bold text-center">주문내역</span>
       <ul className="flex flex-col gap-9 mt-4">
         {items.map((cartItem, i) => (
-          <li key={i}>
+          <li key={i} onClick={() => onClickElement?.(cartItem)}>
             <CartElemContent data={cartItem} />
           </li>
         ))}
