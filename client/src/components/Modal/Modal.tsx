@@ -22,7 +22,7 @@ export const Modal = () => {
       >
         <dialog
           open
-          className="w-fit-content h-fit-content min-w-300 min-h-300 overflow-y-auto relative p-8 md:p-16 bg-white rounded"
+          className="w-fit-content h-fit-content min-w-300 min-h-300 overflow-y-auto max-h-[90vh] relative p-8 md:p-16 bg-white rounded"
           onClick={(e) => {
             e.stopPropagation();
           }}
