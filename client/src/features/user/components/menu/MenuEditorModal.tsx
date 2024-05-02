@@ -66,7 +66,9 @@ const MenuEditorModal = ({ productId }: Props) => {
       component={"form"}
       onSubmit={async (e) => {
         e.preventDefault();
-        await uploadImage({ file: newImage, menuId: productDetail.id });
+        if (newImage) {
+          await uploadImage({ file: newImage, menuId: productDetail.id });
+        }
         await patchProductHandler({
           menuId: productId,
           formData: {

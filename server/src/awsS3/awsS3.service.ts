@@ -3,7 +3,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { randomUUID } from 'crypto';
 
@@ -25,6 +25,9 @@ export class AwsS3Service {
   async uploadToS3(
     file: Express.Multer.File // 업로드할 파일
   ) {
+    if (!file) {
+      throw new BadRequestException('올바른 파일이 아닙니다');
+    }
     const uniqueKey = randomUUID({ disableEntropyCache: true });
     const fileKey = `${uniqueKey}${btoa(file.originalname.split('.')[0])}`;
     // AWS S3에 이미지 업로드 명령을 생성합니다. 파일 이름, 파일 버퍼, 파일 접근 권한, 파일 타입 등을 설정합니다.
