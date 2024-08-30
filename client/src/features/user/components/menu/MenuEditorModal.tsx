@@ -35,7 +35,7 @@ const MenuEditorModal = ({ productId }: Props) => {
     price: productDetail.price,
     adminMemo: productDetail.adminMemo ?? "",
   });
-  const [newImage, setNewImage] = useState<File>(null);
+  const [newImage, setNewImage] = useState<File | undefined | null>(undefined);
 
   const [optionToPatch, setOptionToPatch] = useState<{
     patch?: PatchOptionByArrayDTO[];
@@ -68,6 +68,9 @@ const MenuEditorModal = ({ productId }: Props) => {
         e.preventDefault();
         if (newImage) {
           await uploadImage({ file: newImage, menuId: productDetail.id });
+        }
+        if (newImage === null) {
+          // 이미지가 지워진 경우
         }
         await patchProductHandler({
           menuId: productId,

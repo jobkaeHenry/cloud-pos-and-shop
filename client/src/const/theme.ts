@@ -69,12 +69,15 @@ const theme = createTheme({
     },
     error: {
       main: "#FF4242",
+      contrastText:"#fff"
     },
     success: {
       main: "#85b61a",
+      contrastText:"#fff"
     },
     warning: {
       main: "#ec6526",
+      contrastText:"#fff"
     },
   },
   components: {

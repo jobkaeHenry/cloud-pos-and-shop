@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
 import Stack from "@mui/material/Stack";
+import { Chip } from "@mui/material";
 
 type CollapsableRowProps = {
   data: Order;
@@ -44,6 +45,28 @@ const CollapsableRow = ({ data }: CollapsableRowProps) => {
   });
   const priceToPurchase = getPriceToPurchase({ totalPrice, discountablePrice });
 
+  const statusNameMapper = (status: Order["status"]) => {
+    switch (status) {
+      case "pending":
+        return "제조중";
+      case "cancled":
+        return "주문취소";
+      case "success":
+        return "완료";
+    }
+  };
+
+  const statusStyleMapper = (status: Order["status"]) => {
+    switch (status) {
+      case "pending":
+        return "secondary";
+      case "cancled":
+        return "default";
+      case "success":
+        return "default";
+    }
+  };
+
   useEffect(() => setCheatingSheet(undefined), [open]);
 
   return (
@@ -70,7 +93,14 @@ const CollapsableRow = ({ data }: CollapsableRowProps) => {
         </TableCell>
         <TableCell>{totalQuantity}</TableCell>
         <TableCell>{dayjs(createdAt).fromNow()}</TableCell>
-        <TableCell>{status}</TableCell>
+        <TableCell>
+          <Chip
+            label={statusNameMapper(status)}
+            color={statusStyleMapper(status)}
+            size="small"
+            sx={{fontWeight:'bold'}}
+          />
+        </TableCell>
       </TableRow>
 
       <TableRow>

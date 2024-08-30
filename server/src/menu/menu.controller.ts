@@ -54,6 +54,15 @@ export class MenuController {
     return await this.menuService.uploadImage(file, menuId, user.id);
   }
 
+  @Delete(':id/image')
+  @Serialize(GetSingleMenuDTO)
+  async deleteImage(
+    @Param('id', ParseIntPipe) menuId: number,
+    @GetUser() user: User
+  ) {
+    return await this.menuService.deleteImage(menuId, user.id);
+  }
+
   @Patch(':id')
   async patchMenu(
     @Param('id', ParseIntPipe) menuId: number,

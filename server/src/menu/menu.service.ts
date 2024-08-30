@@ -283,4 +283,25 @@ export class MenuService {
     }
     return { image };
   }
+
+  async deleteImage(menuId: Menu['id'], userId: User['id']) {
+    const existingMenu = await this.menuRepo.findOne({
+      where: {
+        id: menuId,
+        user: { id: userId },
+      },
+      relations: ['user'],
+    });
+    if (!existingMenu) {
+      new BadRequestException('존재하지 않는 메뉴입니다');
+    }
+    const existingImageUrl = existingMenu.image;
+
+    if (!existingImageUrl) {
+      new BadRequestException('존재하지 않는 이미지입니다');
+    }
+    await this.AwsS3Service.deleteImageFromS3(existingImageUrl);
+
+    return await this.menuRepo.update(existingMenu.id, { image: '' });
+  }
 }
